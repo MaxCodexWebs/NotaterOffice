@@ -1,0 +1,55 @@
+{
+  "name": "Notater Office",
+  "short_name": "Notater",
+  "description": "Office Programm",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#eef1f8",
+  "theme_color": "#27408b",
+  "orientation": "any",
+  "shortcuts": [
+    {
+      "name": "NTS Dokument",
+      "short_name": "NTS",
+      "description": "NTS Skriver Dokument öffnen",
+      "url": "./NTS/NTS.html",
+      "icons": [
+        {
+          "src": "./NTS/pictures/Logo_NTS.png", 
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "NTP Programm",
+      "short_name": "NTP",
+      "description": "NTP Modul öffnen",
+      "url": "./NTP/NTP.html"
+    },
+    {
+      "name": "NotaterBold",
+      "short_name": "NTB",
+      "description": "NotaterBold Editor öffnen",
+      "url": "./NotaterBold/NTB.html",
+      "icons": [
+        {
+          "src": "./NotaterBold/pictures/Logo_NTB.png", 
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    }
+  ],
+  "file_handlers": [
+    {
+      "action": "./NTS/NTS.html",
+      "name": "Notater Skriver Dokument",
+      "accept": {
+        "application/x-notater": [
+          ".nts"
+        ]
+      }
+    }
+  ]
+}
