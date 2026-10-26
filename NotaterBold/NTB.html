@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    >
+
+    <title>Notater Bold</title>
+
+    <meta
+        name="description"
+        content="Notater Bold – moderne Tabellenkalkulation für das Notater Office Projekt."
+    >
+
+    <link rel="stylesheet" href="NTB.css">
+
+    <!-- XLSX -->
+    <script
+        src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js">
+    </script>
+
+    <!-- jsPDF -->
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js">
+    </script>
+
+    <!-- jsPDF AutoTable -->
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.4/jspdf.plugin.autotable.min.js">
+    </script>
+</head>
+
+<body>
+
+<div id="app">
+
+    <!-- =========================
+         TOP APP BAR
+    ========================== -->
+
+    <header class="topbar">
+
+        <div class="brand">
+            <div class="brand-mark">
+                <img style="height: 100%; width: 100%; object-fit: cover;" src="LogoNB.png" alt="Notater-Bold-Logo">
+            </div>
+
+            <div class="brand-copy">
+                <strong>Notater Bold</strong>
+                <small>Office Spreadsheet</small>
+            </div>
+        </div>
+
+        <div class="document-area">
+
+            <input
+                id="workbookName"
+                class="workbook-name"
+                value="Meine Arbeitsmappe"
+                spellcheck="false"
+                aria-label="Arbeitsmappenname"
+            >
+
+            <span id="saveStatus" class="save-status">
+                Gespeichert
+            </span>
+
+        </div>
+
+        <div class="top-actions">
+
+            <button
+                id="undoBtn"
+                class="icon-button"
+                title="Rückgängig (Strg+Z)"
+            >↶</button>
+
+            <button
+                id="redoBtn"
+                class="icon-button"
+                title="Wiederholen (Strg+Y)"
+            >↷</button>
+
+            <button
+                id="themeButton"
+                class="top-button"
+                title="Theme wechseln"
+            >
+                <span>◐</span>
+                <span>Theme</span>
+            </button>
+
+            <button
+                id="fullscreenBtn"
+                class="icon-button"
+                title="Vollbild"
+            >⛶</button>
+        </div>
+
+    </header>
+
+
+    <!-- =========================
+         MAIN TOOLBAR
+    ========================== -->
+
+    <nav class="toolbar">
+
+        <div class="toolbar-group">
+
+            <button id="newBtn" class="tool-button">
+                <span>＋</span>
+                Neu
+            </button>
+
+            <button id="openBtn" class="tool-button">
+                <span>↥</span>
+                Öffnen
+            </button>
+
+            <button id="saveBtn" class="tool-button primary">
+                <span>⇩</span>
+                XLSX
+            </button>
+
+            <button id="csvExportBtn" class="tool-button">
+                CSV
+            </button>
+
+            <button id="pdfBtn" class="tool-button">
+                PDF
+            </button>
+
+            <button id="printBtn" class="tool-button">
+                Drucken
+            </button>
+
+        </div>
+
+        <div class="toolbar-divider"></div>
+
+        <div class="toolbar-group">
+
+            <button id="boldBtn" class="format-button">
+                <b>B</b>
+            </button>
+
+            <button id="italicBtn" class="format-button">
+                <i>I</i>
+            </button>
+
+            <label
+                class="color-control"
+                title="Textfarbe"
+            >
+                <span>A</span>
+                <input
+                    id="textColor"
+                    type="color"
+                    value="#0f172a"
+                >
+            </label>
+
+            <label
+                class="color-control"
+                title="Hintergrundfarbe"
+            >
+                <span>▰</span>
+                <input
+                    id="fillColor"
+                    type="color"
+                    value="#ffffff"
+                >
+            </label>
+
+            <select id="numberFormat" class="toolbar-select">
+                <option value="general">Standard</option>
+                <option value="number">Zahl</option>
+                <option value="currency">Währung</option>
+                <option value="percent">Prozent</option>
+                <option value="date">Datum</option>
+            </select>
+
+        </div>
+
+        <div class="toolbar-divider"></div>
+
+        <div class="toolbar-group">
+
+            <button id="insertRowBtn" class="tool-button">
+                ＋ Zeile
+            </button>
+
+            <button id="insertColBtn" class="tool-button">
+                ＋ Spalte
+            </button>
+
+            <button id="deleteRowBtn" class="tool-button danger-soft">
+                − Zeile
+            </button>
+
+            <button id="deleteColBtn" class="tool-button danger-soft">
+                − Spalte
+            </button>
+
+        </div>
+
+        <div class="toolbar-spacer"></div>
+
+        <div class="toolbar-group">
+
+            <button
+                id="freezeBtn"
+                class="tool-button"
+                title="Kopfzeile fixieren"
+            >
+                ❄ Fixieren
+            </button>
+
+            <button
+                id="demoBtn"
+                class="tool-button"
+                title="Beispieldaten laden"
+            >
+                ✦ Demo
+            </button>
+
+            <button
+                id="searchBtn"
+                class="tool-button"
+                title="Suchen"
+            >
+                🔎
+            </button>
+
+        </div>
+
+    </nav>
+
+
+    <!-- =========================
+         FORMULA BAR
+    ========================== -->
+
+    <section class="formula-bar">
+
+        <div
+            id="nameBox"
+            class="name-box"
+            title="Aktive Zelle"
+        >
+            A1
+        </div>
+
+        <div class="fx-label">
+            fx
+        </div>
+
+        <input
+            id="formulaInput"
+            class="formula-input"
+            placeholder="Wert oder Formel eingeben..."
+            spellcheck="false"
+            autocomplete="off"
+        >
+
+        <button
+            id="formulaCancel"
+            class="formula-action"
+            title="Änderung verwerfen"
+        >
+            ×
+        </button>
+
+        <button
+            id="formulaApply"
+            class="formula-action apply"
+            title="Änderung übernehmen"
+        >
+            ✓
+        </button>
+
+    </section>
+
+
+    <!-- =========================
+         SEARCH PANEL
+    ========================== -->
+
+    <section id="searchPanel" class="search-panel hidden">
+
+        <div class="search-inner">
+
+            <input
+                id="searchInput"
+                type="search"
+                placeholder="In Tabelle suchen..."
+                autocomplete="off"
+            >
+
+            <input
+                id="replaceInput"
+                type="text"
+                placeholder="Ersetzen durch..."
+                autocomplete="off"
+            >
+
+            <button id="findNextBtn" class="tool-button">
+                Weiter
+            </button>
+
+            <button id="replaceBtn" class="tool-button">
+                Ersetzen
+            </button>
+
+            <button id="replaceAllBtn" class="tool-button">
+                Alle ersetzen
+            </button>
+
+            <button id="closeSearchBtn" class="icon-button">
+                ×
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         WORKSPACE
+    ========================== -->
+
+    <main class="workspace">
+
+        <div
+            id="sheetViewport"
+            class="sheet-viewport"
+        >
+
+            <table
+                id="spreadsheet"
+                class="spreadsheet"
+                aria-label="Notater Bold Tabelle"
+            >
+
+                <thead id="sheetHead"></thead>
+
+                <tbody id="sheetBody"></tbody>
+
+            </table>
+
+        </div>
+
+    </main>
+
+
+    <!-- =========================
+         SHEET TABS
+    ========================== -->
+
+    <footer class="sheet-footer">
+
+        <div class="sheet-tabs" id="sheetTabs"></div>
+
+        <button
+            id="addSheetBtn"
+            class="add-sheet"
+            title="Neues Tabellenblatt"
+        >
+            ＋
+        </button>
+
+        <div class="footer-spacer"></div>
+
+        <div class="zoom-area">
+
+            <button id="zoomOut">−</button>
+
+            <span id="zoomValue">100%</span>
+
+            <button id="zoomIn">＋</button>
+
+            <button id="zoomReset">100%</button>
+
+        </div>
+
+    </footer>
+
+
+    <!-- =========================
+         STATUS BAR
+    ========================== -->
+
+    <div class="statusbar">
+
+        <div class="status-left">
+
+            <span id="cellStatus">
+                Bereit
+            </span>
+
+            <span class="status-separator">•</span>
+
+            <span id="selectionStatus">
+                Keine Auswahl
+            </span>
+
+        </div>
+
+        <div class="status-right">
+
+            <span id="calcStatus">
+                Berechnung abgeschlossen
+            </span>
+
+            <span class="status-separator">•</span>
+
+            <span>
+                Notater Office
+            </span>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     FILE INPUTS
+========================== -->
+
+<input
+    id="fileInput"
+    type="file"
+    hidden
+    accept=".xlsx,.xls,.csv,.txt"
+>
+
+
+<!-- =========================
+     TOAST
+========================== -->
+
+<div id="toastContainer" class="toast-container"></div>
+
+
+<!-- =========================
+     THEME MENU
+========================== -->
+
+<div id="themeMenu" class="theme-menu hidden">
+
+    <div class="theme-menu-title">
+        Erscheinungsbild
+    </div>
+
+    <button data-theme="default">
+        <span class="theme-dot default"></span>
+        Standard
+    </button>
+
+    <button data-theme="moerk">
+        <span class="theme-dot moerk"></span>
+        Mörk
+    </button>
+
+    <button data-theme="neon">
+        <span class="theme-dot neon"></span>
+        Neon
+    </button>
+
+    <button data-theme="skog">
+        <span class="theme-dot skog"></span>
+        Skog
+    </button>
+
+    <button data-theme="hav">
+        <span class="theme-dot hav"></span>
+        Hav
+    </button>
+
+    <button data-theme="pergament">
+        <span class="theme-dot pergament"></span>
+        Pergament
+    </button>
+
+</div>
+
+
+<script src="NTB.js"></script>
+
+</body>
+</html>
