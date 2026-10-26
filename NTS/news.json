@@ -1,0 +1,17 @@
+[
+    {
+        "badge": "Version 0.8",
+        "title": "Neue Hintergründe",
+        "content": "Neue Hintergründe beim Dashboard und im Editor."
+    },
+    {
+        "badge": "Neu",
+        "title": "Barrierefreiheit verbessert",
+        "content": "Die WebApp ist nun besser mit Screenreader bedienbar, damit JEDER Notater Skriver problemlos nutzen kann."
+    },
+    {
+        "badge": "Info",
+        "title": "Willkommen",
+        "content": "Dies ist die offizielle Notater-News-Seite."
+    }
+]
