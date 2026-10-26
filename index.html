@@ -1,418 +1,433 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="de" class="h-full">
+
 <head>
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#ffffff">
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<title>Notater Skriver</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
-<script src="https://unpkg.com/lucide@latest"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notater Office — Dashboard</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #f4f6fa;
+            --chrome: #ffffff;
+            --chrome2: #f7f9fc;
+            --panel: #ffffff;
+            --border: #dde3ef;
+            --border2: #c8d0e4;
+            --text: #3d4a63;
+            --text-strong: #0f172a;
+            --text-dim: #8b9ab5;
+            --accent: #27408b;
+            --accent2: #436eee;
+            --accent-soft: rgba(91, 84, 232, .11);
+            --tab-act: #eef1f8;
+            --page-bg: #ffffff;
+            --page-text: #0f172a;
+            --page-shadow: 0 2px 8px rgba(91, 84, 232, .08), 0 8px 32px rgba(0, 0, 0, .06);
+            --sh: 0 1px 3px rgba(0, 0, 0, .07);
+            --sh-lg: 0 8px 28px rgba(0, 0, 0, .10);
+            --radius: 8px;
+            --tr: .16s cubic-bezier(.4, 0, .2, 1);
+            --font: 'Inter', system-ui, sans-serif;
+            --catalog-card-bg: #ffffff;
+            --catalog-card-border: #dde3ef;
+            --catalog-card-title: #0f172a;
+            --catalog-card-text: #3d4a63;
+            --catalog-card-shadow: 0 10px 15px -3px rgba(91, 84, 232, .05), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
+            --bgDash: linear-gradient(135deg, #f0f4ff 0%, #e6efff 100%);
+            --footerDash: #2B2B2B;
+        }
+
+        body.theme-moerk {
+            --bg: #141416;
+            --chrome: #141416;
+            --chrome2: #202024;
+            --panel: #18181b;
+            --border: #27272a;
+            --border2: #3f3f46;
+            --text: #a1a1aa;
+            --text-strong: #f4f4f5;
+            --text-dim: #71717a;
+            --accent: #4169e1;
+            --accent2: #436eee;
+            --accent-soft: rgba(99, 102, 241, 0.1);
+            --tab-act: #18181b;
+            --page-bg: #ffffff;
+            --page-text: #09090b;
+            --page-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            --sh: 0 1px 3px rgba(0, 0, 0, 0.2);
+            --sh-lg: 0 24px 64px rgba(0, 0, 0, 0.6);
+            --catalog-card-bg: #141416;
+            --catalog-card-border: #27272a;
+            --catalog-card-title: #f4f4f5;
+            --catalog-card-text: #a1a1aa;
+            --catalog-card-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -4px rgba(0, 0, 0, 0.2);
+            --bgDash: linear-gradient(135deg, #09090b 0%, #18181b 100%);
+            --footerDash: #e0f2fe;
+        }
+
+        body.theme-neon {
+            --bg: #050811;
+            --chrome: #050811;
+            --chrome2: #0e1524;
+            --panel: #090e1a;
+            --border: #1a263d;
+            --border2: #2e3f61;
+            --text: #cbd5e1;
+            --text-strong: #f8fafc;
+            --text-dim: #64748b;
+            --accent: #ff1a8c;
+            --accent2: #6366f1;
+            --accent-soft: rgba(255, 26, 140, 0.12);
+            --tab-act: #090e1a;
+            --page-bg: #ffffff;
+            --page-text: #02040a;
+            --page-shadow: 0 16px 40px rgba(0, 229, 255, 0.15);
+            --sh: 0 1px 4px rgba(255, 26, 140, 0.15);
+            --sh-lg: 0 20px 48px rgba(255, 26, 140, 0.2);
+            --catalog-card-bg: #050811;
+            --catalog-card-border: #1a263d;
+            --catalog-card-title: #f8fafc;
+            --catalog-card-text: #cbd5e1;
+            --catalog-card-shadow: 0 10px 15px -3px rgba(255, 26, 140, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.4);
+            --bgDash: linear-gradient(135deg, #050811 0%, #0e1524 50%, #1a0b2e 100%);
+            --footerDash: #F5F1E8;
+        }
+
+        body.theme-skog {
+            --bg: #091a10;
+            --chrome: #091a10;
+            --chrome2: #12321e;
+            --panel: #0d2316;
+            --border: #163e25;
+            --border2: #226039;
+            --text: #a1a1aa;
+            --text-strong: #f7fee7;
+            --text-dim: #3f624c;
+            --accent: #10b981;
+            --accent2: #228b22;
+            --accent-soft: rgba(16, 185, 129, 0.12);
+            --tab-act: #0d2316;
+            --page-bg: #ffffff;
+            --page-text: #040d08;
+            --page-shadow: 0 16px 40px rgba(4, 13, 8, 0.4);
+            --sh: 0 1px 4px rgba(4, 13, 8, 0.15);
+            --sh-lg: 0 20px 48px rgba(4, 13, 8, 0.45);
+            --catalog-card-bg: #091a10;
+            --catalog-card-border: #163e25;
+            --catalog-card-title: #f7fee7;
+            --catalog-card-text: #a1a1aa;
+            --catalog-card-shadow: 0 10px 15px -3px rgba(4, 13, 8, 0.2), 0 4px 6px -4px rgba(0, 0, 0, 0.2);
+            --bgDash: linear-gradient(135deg, #091a10 0%, #0d2316 100%);
+            --footerDash: #F5F1E8;
+        }
+
+        body.theme-hav {
+            --bg: #dfebf5;
+            --chrome: #dfebf5;
+            --chrome2: #cddfe0;
+            --panel: #f4f9fc;
+            --border: #b8d4e3;
+            --border2: #9bc2d9;
+            --text: #3a5b75;
+            --text-strong: #1d3549;
+            --text-dim: #7094b0;
+            --accent: #0979a5;
+            --accent2: #0e7c81;
+            --accent-soft: rgba(0, 168, 232, 0.1);
+            --tab-act: #f4f9fc;
+            --page-bg: #ffffff;
+            --page-text: #1d3549;
+            --page-shadow: 0 16px 40px rgba(58, 91, 117, 0.1);
+            --sh: 0 2px 6px rgba(58, 91, 117, 0.08);
+            --sh-lg: 0 24px 50px rgba(0, 168, 232, 0.12);
+            --catalog-card-bg: #ffffff;
+            --catalog-card-border: #b8d4e3;
+            --catalog-card-title: #1d3549;
+            --catalog-card-text: #3a5b75;
+            --catalog-card-shadow: 0 10px 15px -3px rgba(58, 91, 117, 0.05), 0 4px 6px -4px rgba(58, 91, 117, 0.03);
+            --bgDash: linear-gradient(135deg, #d8eafe 0%, #c1dfef 100%);
+            --footerDash: #ffffff;
+        }
+
+        body.theme-pergament {
+            --bg: #e6dfd2;
+            --chrome: #e6dfd2;
+            --chrome2: #e6dfd2;
+            --panel: #f5ead4;
+            --border: #beb29a;
+            --border2: #967d55;
+            --text: #403323;
+            --text-strong: #24190f;
+            --text-dim: #75634a;
+            --accent: #614127;
+            --accent2: #806f5a;
+            --accent-soft: rgba(97, 65, 39, 0.10);
+            --tab-act: #f5ead4;
+            --page-bg: #ffffff;
+            --page-text: #2b2116;
+            --page-shadow: 0 12px 35px rgba(55, 40, 20, 0.18);
+            --sh: 0 2px 8px rgba(55, 40, 20, 0.10);
+            --sh-lg: 0 20px 50px rgba(55, 40, 20, 0.22);
+            --catalog-card-bg: #f8edda;
+            --catalog-card-border: #b9a47c;
+            --catalog-card-title: #24190f;
+            --card-text: #403323;
+            --catalog-card-shadow: 0 10px 15px -3px rgba(55, 40, 20, 0.14), 0 4px 6px -4px rgba(55, 40, 20, 0.10);
+            --bgDash: linear-gradient(135deg, #f2ead8 0%, #e3d3b6 100%);
+            --footerDash: #410202;
+        }
+
+        body {
+            font-family: var(--font);
+            background: var(--bgDash);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            transition: background var(--tr), color var(--tr);
+        }
+
+        .dashboard-card {
+            background-color: var(--catalog-card-bg);
+            border: 1px solid var(--catalog-card-border);
+            box-shadow: var(--catalog-card-shadow);
+            border-radius: var(--radius);
+            transition: all var(--tr);
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--sh-lg);
+            border-color: var(--accent);
+        }
+
+        .btn-accent {
+            background: var(--accent);
+            color: #ffffff;
+            transition: all var(--tr);
+        }
+
+        .btn-accent:hover {
+            background: var(--accent2);
+        }
+
+        /* Dropdown menu animation */
+        .dropdown-menu {
+            transform-origin: top right;
+            transition: opacity 0.15s ease, transform 0.15s ease;
+        }
+
+        .dropdown-menu.hidden {
+            opacity: 0;
+            transform: scale(0.95);
+            pointer-events: none;
+            display: none;
+        }
+
+        .dropdown-menu:not(.hidden) {
+            opacity: 1;
+            transform: scale(1);
+            display: block;
+        }
+    </style>
 </head>
-<body>
-<div id="ntsDashboard" class="nts-dashboard">
-  <div class="dash-topbar"><div class="dash-brand"><img src="pictures/Logo_Notater.png" alt="Logo" class="app-logo"><span>Notater Skriver</span></div><div class="dash-controls"></div></div>
-  <div class="dash-content-wrapper">
-    <div class="dash-main-section">
-      <h2 class="section-title">Neu erstellen</h2>
-      <div class="dash-templates"><div class="dash-card" id="newDocBtn"><div class="dash-card-preview blank-doc"><i data-lucide="plus-circle" class="playful-icon"></i></div><div class="dash-card-title">Leeres Dokument</div></div></div>
-      <h2 class="section-title" style="margin-top:32px;">Zuletzt verwendet</h2>
-      <div class="dash-recent" id="recentDocsList"><div class="empty-state-text">Keine zuletzt verwendeten Dokumente vorhanden.</div></div>
-    </div>
-    <div class="dash-news-section"><div class="news-header"><h2>Notater News</h2></div><div id="newsFeedContainer" class="news-feed"></div></div>
-  </div>
-  <footer class="site-footer">
-  <div class="footer-left">
-    <span>Icons by Lucide</span>
-  </div>
 
-  <div class="footer-center">
-    <p>|Mancher Content ist mit KI erstellt worden.|</p>
-  </div>
+<body class="h-full">
 
-  <div class="footer-right">
-    <span id="uhrzeit">12:00 Uhr</span>
-  </div>
-  </footer>
-  <div id="newsModal" class="dash-modal" style="display:none;"><div class="modal-content"><h3>Neuen News-Beitrag erstellen</h3><input type="text" id="newsBadgeInput" placeholder="Badge-Text (z.B. Wichtig, Info, Update)"><input type="text" id="newsTitleInput" placeholder="Titel des Beitrags..."><textarea id="newsContentInput" placeholder="Inhalt oder Ankündigung schreiben..." rows="4"></textarea><div class="modal-actions"><button id="closeNewsModalBtn" class="btn-secondary">Abbrechen</button><button id="saveNewsBtn" class="btn-primary">Veröffentlichen</button></div></div></div></div>
-  <!--App beginn-->
-  <div class="app" id="mainApp" style="display: none;">
-  <div class="ribbon">
-    <div class="topbar">
-	  <button id="backToDashBtn" class="tb-btn" title="Zurück zum Dashboard">
-	    <i data-lucide="arrow-left"></i>
-	  </button>
-      <div class="app-brand">
-        <div class="app-logo"><img src="pictures/Logo_Notater.png" alt="Logo" class="app-logo"></div>
-        <p>Notater Skriver</p>
-        <span class="app-version">Beta Version 0.9</span>
-      </div>
-      <div class="doc-title-wrap">
-        <input type="text" id="docTitle" value="Unbenanntes Dokument" title="Klicken, um umzubenennen" spellcheck="false">
-      </div>
-      <div class="topbar-right">
-        <div class="save-indicator saved" id="saveIndicator">
-          <div class="save-dot"></div>
-          <span id="saveText">Gespeichert</span>
+    <header class="w-full border-b border-[var(--border)] bg-[var(--chrome)] backdrop-blur-md px-6 py-4 flex items-center justify-between sticky top-0 z-50 shadow-[var(--sh)]">
+        <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-[var(--radius)] flex items-center justify-center btn-accent shadow-sm font-bold text-lg">
+                NO
+            </div>
+            <div>
+                <h1 class="font-bold text-lg text-[var(--text-strong)] leading-tight">Notater Office</h1>
+                <p class="text-xs text-[var(--text-dim)]">Arbeitsumgebung &amp; Hub</p>
+            </div>
         </div>
-        <button class="lernapp-btn" id="lernappSaveBtn"><i data-lucide="file-text" class="EJ"></i> PDF Speichern/ Kopieren</button>
-      </div>
-    </div>
 
-    <div class="tabs-nav">
-      <button class="tn-btn active" data-tab="tab-hjem">Start</button>
-      <button class="tn-btn" data-tab="tab-sett-inn">Einfügen</button>
-      <button class="tn-btn" data-tab="tab-format">Format</button>
-      <button class="tn-btn" data-tab="tab-tool">Tools</button>
-      <button class="tn-btn" data-tab="tab-katalog">Katalog</button>
-	    <button class="tn-btn" data-tab="tab-export">Export</button>
-      <button class="tn-btn" data-tab="tab-visning">Ansicht</button>
-    </div>
+        <!-- Settings Menu Dropdown -->
+        <div class="relative">
+            <button id="settings-btn" aria-label="Einstellungen öffnen" class="flex items-center space-x-2 px-3 py-2 rounded-[var(--radius)] border border-[var(--border2)] bg-[var(--panel)] text-[var(--text-strong)] hover:border-[var(--accent)] transition shadow-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+                <span class="text-xs font-semibold hidden sm:inline">Design &amp; Themen</span>
+            </button>
 
-    <div class="toolbar active" id="tab-hjem">
-      <div class="group">
-        <select class="tb-select" id="fontName" style="width:130px">
-          <option value="Arial" selected>Arial</option>
-          <option value="Calibri">Calibri</option>
-          <option value="Times New Roman">Times New Roman</option>
-          <option value="Courier New">Courier New</option>
-          <option value="Inter">Inter</option>
-          <option value="Lora">Lora</option>
-          <option value="Aptos">Aptos</option>
-          <option value="Segoe UI">Segoe UI</option>
-          <option value="Palatino Linotype">Palatino</option>
-          <option value="Verdana">Verdana</option>
-          <option value="Georgia">Georgia</option>
-          <option value="Trebuchet MS">Trebuchet MS</option>
-          <option value="Garamond">Garamond</option>
-          <option value="Century Gothic">Century Gothic</option>
-          <option value="Brush Script MT">Brush Script MT</option>
-          <option value="Lucida Handwriting">Lucida Handwriting</option>
-          <option value="Segoe Script">Segoe Script</option>
-          <option value="Segoe Print">Segoe Print</option>
-        </select>
-
-        <select class="tb-select" id="fontSize" style="width:60px"> 
-          <option value="8">8</option>
-          <option value="9">9</option>
-          <option value="10">10</option>
-          <option value="11">11</option>
-          <option value="12">12</option>
-          <option value="14" selected>14</option>
-          <option value="16">16</option>
-          <option value="18">18</option>
-          <option value="20">20</option>
-          <option value="24">24</option>
-          <option value="28">28</option>
-          <option value="32">32</option>
-          <option value="36">36</option>
-          <option value="48">48</option>
-          <option value="56">56</option>
-          <option value="72">72</option>
-		  <option value="80">80</option>
-		  <option value="90">90</option>
-		  <option value="100">100</option>
-		  <option value="150">150</option>
-		  <option value="200">200</option>
-		  <option value="250">250</option>
-        </select>
-      </div>
-      <div class="group closed">
-        <span class="group-label">Stile <span class="arrow">▶</span></span>
-        <div class="group-content">
-          <select class="tb-select" id="headingStyle" style="width:120px">
-             <option value="h1">Überschrift 1</option>
-             <option value="h2">Überschrift 2</option>
-             <option value="h3">Überschrift 3</option>
-             <option value="h4">Überschrift 4</option>
-             <option value="p" selected>Standardtext</option>
-             <option value="blockquote">Zitatblock</option>
-             <option value="pre">Codeblock</option>
-          </select>
+            <!-- Dropdown content -->
+            <div id="settings-dropdown" class="dropdown-menu hidden absolute right-0 mt-2 w-56 rounded-[var(--radius)] bg-[var(--panel)] border border-[var(--border2)] shadow-[var(--sh-lg)] p-2 z-50">
+                <div class="px-3 py-2 text-xs font-semibold text-[var(--text-dim)] border-b border-[var(--border)] mb-1">
+                    Design auswählen
+                </div>
+                <div class="space-y-1" id="theme-options">
+                    <button data-theme="" class="w-full text-left px-3 py-2 rounded text-xs font-medium text-[var(--text-strong)] hover:bg-[var(--accent-soft)] transition flex items-center justify-between">
+                        <span>Default (Hell)</span>
+                        <span class="w-3 h-3 rounded-full border border-gray-300 bg-white"></span>
+                    </button>
+                    <button data-theme="theme-moerk" class="w-full text-left px-3 py-2 rounded text-xs font-medium text-[var(--text-strong)] hover:bg-[var(--accent-soft)] transition flex items-center justify-between">
+                        <span>Mörk (Dunkel)</span>
+                        <span class="w-3 h-3 rounded-full bg-zinc-900 border border-zinc-700"></span>
+                    </button>
+                    <button data-theme="theme-neon" class="w-full text-left px-3 py-2 rounded text-xs font-medium text-[var(--text-strong)] hover:bg-[var(--accent-soft)] transition flex items-center justify-between">
+                        <span>Neon Cyber</span>
+                        <span class="w-3 h-3 rounded-full bg-pink-600"></span>
+                    </button>
+                    <button data-theme="theme-skog" class="w-full text-left px-3 py-2 rounded text-xs font-medium text-[var(--text-strong)] hover:bg-[var(--accent-soft)] transition flex items-center justify-between">
+                        <span>Skog (Natur)</span>
+                        <span class="w-3 h-3 rounded-full bg-emerald-600"></span>
+                    </button>
+                    <button data-theme="theme-hav" class="w-full text-left px-3 py-2 rounded text-xs font-medium text-[var(--text-strong)] hover:bg-[var(--accent-soft)] transition flex items-center justify-between">
+                        <span>Hav (Ozean)</span>
+                        <span class="w-3 h-3 rounded-full bg-cyan-600"></span>
+                    </button>
+                    <button data-theme="theme-pergament" class="w-full text-left px-3 py-2 rounded text-xs font-medium text-[var(--text-strong)] hover:bg-[var(--accent-soft)] transition flex items-center justify-between">
+                        <span>Pergament (Sepia)</span>
+                        <span class="w-3 h-3 rounded-full bg-amber-200 border border-amber-400"></span>
+                    </button>
+                </div>
+            </div>
         </div>
-      </div>
+    </header>
 
-      <div class="group">
-	    <span class="group-label">Undo/Redo</span>
-	    <button class="tb-btn" id="undo" title="Rückgängig">⟵</button>
-        <button class="tb-btn" id="redo" title="Wiederholen">⟶</button>
-	  </div>
-      
-      <div class="group">
-        <span class="group-label">Effekte <span class="arrow">▶</span></span>
-        <div class="group-content">
-          <button class="tb-btn" id="bold" title="Fett (Strg+B)" aria-label="Text fett makieren"><b>F</b></button>
-          <button class="tb-btn" id="italic" title="Kursiv (Strg+I)" aria-label="Text kursiv makieren"><i>K</i></button>
-          <button class="tb-btn" id="underline" title="Unterstrichen (Strg+U)" aria-label="Text Unterstreichen"><u>U</u></button>
-          <button class="tb-btn" id="strike" title="Durchgestrichen" aria-label="Text durchstreichen"><s>D</s></button>
-          <span class="sep"></span>
-          <button class="tb-btn" id="subscript" title="Tiefgestellt" aria-label="Text tiefstellen">X<sub>2</sub></button>
-          <button class="tb-btn" id="superscript" title="Hochgestellt" aria-label="Text hochstellen">X<sup>2</sup></button>
-          <button class="tb-btn" id="clearFormat" title="Formatierung löschen" aria-label="Alle formatierungen löschen"><i data-lucide="eraser" class="EJ"></i></button>
+    <main class="flex-grow flex items-center justify-center p-6 sm:p-10">
+        <div class="max-w-5xl w-full mx-auto text-center space-y-10">
+            <div class="space-y-3">
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-[var(--text-strong)] tracking-tight">Willkommen bei Notater Office</h2>
+                <p class="text-[var(--text)] max-w-xl mx-auto text-sm sm:text-base">
+                    Wählen Sie Ihre gewünschte Anwendung.
+                </p>
+            </div>
+
+            <!-- Three Main Navigation Cards Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 pt-4">
+
+                <!-- Link 1: NTS.html (Left, Notater Skriver - Jetzt Hauptmodul) -->
+                <a href="NTS/NTS.html" class="dashboard-card p-8 flex flex-col items-center text-center group block relative md:-translate">
+                    <div class="absolute -top-3 bg-[var(--accent)] text-white text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full shadow-sm">
+                        Hauptmodul
+                    </div>
+                    <div class="w-16 h-16 rounded-2xl bg-[var(--accent-soft)] text-[var(--accent)] flex items-center justify-center mb-6 group-hover:scale-110 transition duration-300">
+                        <!-- SVG: Dokument mit Stift / Textverarbeitung -->
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                        </svg>
+                    </div>
+                    <span class="text-xs font-bold tracking-widest uppercase text-[var(--text-dim)] mb-1">Schreiben</span>
+                    <h3 class="text-xl font-bold text-[var(--catalog-card-title)] mb-2">Notater Skriver</h3>
+                    <p class="text-xs text-[var(--catalog-card-text)] leading-relaxed mb-6">
+                        Das intuitive Textverarbeitungs- und Schreibmodul für Dokumente.
+                    </p>
+                    <span class="inline-flex items-center text-xs font-semibold text-[var(--accent)] group-hover:translate-x-1 transition">
+                        Öffnen &rarr;
+                    </span>
+                </a>
+
+                <!-- Link 2: NTB.html (Center, Notater Bord) -->
+                <a href="NotaterBold/NTB.html" class="dashboard-card p-8 flex flex-col items-center text-center group block">
+                    <div class="w-16 h-16 rounded-2xl bg-[var(--accent-soft)] text-[var(--accent)] flex items-center justify-center mb-6 group-hover:scale-110 transition duration-300">
+                        <!-- SVG: Tabellen / Grid -->
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                        </svg>
+                    </div>
+                    <span class="text-xs font-bold tracking-widest uppercase text-[var(--text-dim)] mb-1">Tabellen</span>
+                    <h3 class="text-xl font-bold text-[var(--catalog-card-title)] mb-2">Notater Bord</h3>
+                    <p class="text-xs text-[var(--catalog-card-text)] leading-relaxed mb-6">
+                        Daten kalkulieren, organisieren und übersichtlich analysieren.
+                    </p>
+                    <span class="inline-flex items-center text-xs font-semibold text-[var(--accent)] group-hover:translate-x-1 transition">
+                        Öffnen &rarr;
+                    </span>
+                </a>
+
+                <!-- Link 3: NTP.html (Right, Notater Presentasjon) -->
+                <a href="NTP/NTP.html" class="dashboard-card p-8 flex flex-col items-center text-center group block">
+                    <div class="w-16 h-16 rounded-2xl bg-[var(--accent-soft)] text-[var(--accent)] flex items-center justify-center mb-6 group-hover:scale-110 transition duration-300">
+                        <!-- SVG: Präsentation / Monitor / Slides -->
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                        </svg>
+                    </div>
+                    <span class="text-xs font-bold tracking-widest uppercase text-[var(--text-dim)] mb-1">Präsentationen</span>
+                    <h3 class="text-xl font-bold text-[var(--catalog-card-title)] mb-2">Notater Presentasjon</h3>
+                    <p class="text-xs text-[var(--catalog-card-text)] leading-relaxed mb-6">
+                        Dynamische Folien und visuelle Präsentationen im Notater-Stil erstellen.
+                    </p>
+                    <span class="inline-flex items-center text-xs font-semibold text-[var(--accent)] group-hover:translate-x-1 transition">
+                        Öffnen &rarr;
+                    </span>
+                </a>
+
+            </div>
         </div>
-      </div>
+    </main>
 
-      <div class="group">
-        <span class="group-label">Farbe <span class="arrow">▶</span></span>
-        <div class="group-content">
-          <div class="color-picker-container">
-  <button type="button" class="tb-color-btn" id="colorPickerBtn" title="Textfarbe" aria-label="Textfarbe ändern">
-    <span class="color-icon">A</span>
-    <div class="color-indicator" id="colorIndicator"></div>
-  </button>
-  
-  <div class="color-palette" id="colorPalette">
-    </div>
-</div>
-<div class="color-picker-container">
-  <button type="button" class="tb-color-btn" id="highlightBtn" title="Textmarker" aria-label="Textmarker Farbe">
-    <span class="color-icon" style="background: var(--panel);">M</span>
-    <div class="color-indicator" id="highlightIndicator"></div>
-  </button>
-  <div class="color-palette" id="highlightPalette" style="display: none;"></div>
-</div>
-    </div>
-      </div>
+    <footer style="background-color: var(--bgDash); color: var(--footerDash); text-align: center; transform: translateY(-20px);">
+        <p>&copy; 2026 Notater Office &bull; Alle Rechte vorbehalten.</p>
+    </footer>
 
-       <div class="group">
-        <span class="group-label">Textausrichtung <span class="arrow">▶</span></span>
-        <div class="group-content">
-          <button class="tb-btn" id="alignLeft" title="Linksbündig" aria-label="Text linksbündig"><i data-lucide="align-left" class="EJ"></i></button>
-          <button class="tb-btn" id="alignCenter" title="Zentriert" aria-label="Text zentrieren"><i data-lucide="align-center" class="EJ"></i></button>
-          <button class="tb-btn" id="alignRight" title="Rechtsbündig" aria-label="Text rechtsbündig"><i data-lucide="align-right" class="EJ"></i></button>
-          <button class="tb-btn" id="alignJustify" title="Blocksatz" aria-label="Text im Blocksatz"><i data-lucide="align-justify" class="EJ"></i></button>
-        </div>
-      </div>
-    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const settingsBtn = document.getElementById('settings-btn');
+            const settingsDropdown = document.getElementById('settings-dropdown');
+            const themeButtons = document.querySelectorAll('#theme-options button');
 
-    <div class="toolbar" id="tab-sett-inn">
-      <div class="group">
-        <span class="group-label">Listen <span class="arrow">▶</span></span>
-        <div class="group-content">
-  <button class="tb-btn" id="insertUl"><i data-lucide="list" class="EJ"></i> Aufzählung</button>
-  <button class="tb-btn" id="insertOl"><i data-lucide="list-ordered" class="EJ"></i> Nummerierung</button>
-  <button class="tb-btn" id="insertHr"><i data-lucide="minus" class="EJ"></i> Linie</button>
-</div>
-      </div>
-      <div class="group">
-        <span class="group-label">Elemente <span class="arrow">▶</span></span>
-        <div class="group-content">
-          <button class="tb-btn" id="tableBtn"><i data-lucide="table" class="EJ"></i> Tabelle</button>
-          <button class="tb-btn" id="imageBtn"><i data-lucide="image" class="EJ"></i> Bild</button>
-          <input type="file" id="imageUpload" accept="image/*" hidden>
-          <button class="tb-btn" id="linkBtn"><i data-lucide="link" class="EJ"></i> Link</button>
-          <button class="tb-btn" id="emojiBtn"><i data-lucide="smile" class="EJ"></i> Emoji</button>
-		  <span class="sep"></span>
-		  <button class="tb-btn" id="textBoxBtn"><i data-lucide="type" class="EJ"></i> Textfeld</button>
-		  <select class="tb-select" id="shapeSelector" style="width:100px">
-		    <option value=""> Form:</option>
-			<option value="rect">Rechteck</option>
-			<option value="circle">Kreis</option>
-			<option value="line">Linie</option>
-		  </select>
-        </div>
-      </div>
-      <div class="group">
-        <span class="group-label">Einfügen <span class="arrow">▶</span></span>
-        <div class="group-content">
-          <button class="tb-btn" id="insertDate"><i data-lucide="calendar" class="EJ"></i> Datum</button>
-          <button class="tb-btn" id="insertTime"><i data-lucide="clock" class="EJ"></i> Uhrzeit</button>
-          <button class="tb-btn" id="pageBreakBtn"><i data-lucide="file-plus" class="EJ"></i> Neue Seite</button>
-        </div>
-      </div>
-    </div>
+            // Load saved theme from localStorage
+            const savedTheme = localStorage.getItem('notater_office_theme');
+            if (savedTheme !== null) {
+                if (savedTheme !== "") {
+                    document.body.classList.add(savedTheme);
+                }
+            }
 
-    <div class="toolbar" id="tab-format">
-      <div class="group">
-        <span class="group-label">Zeilenabstand <span class="arrow">▶</span></span>
-        <div class="group-content">
-          <select class="tb-select" id="lineHeightSelector" style="width:60px">
-            <option value="1.00">1</option>
-            <option value="1.15">1.15</option>
-            <option value="1.5" selected>1.5</option>
-            <option value="2.0">2.0</option>
-            <option value="2.5">2.5</option>
-            <option value="3.0">3.0</option>
-          </select>
-        </div>
-      </div>
-      <div class="group">
-        <span class="group-label">Seitenformat <span class="arrow">▶</span></span>
-        <div class="group-content">
-          <select class="tb-select" id="paperFormat" style="width:100px">
-            <option value="a4" selected>A4</option>
-            <option value="a3">A3</option>
-            <option value="a5">A5</option>
-            <option value="custom">Skriver Ratio</option>
-            <option value="legal">Legal</option>
-            <option value="letter">Letter</option>
-            <option value="tabloid">Tabloid</option>
-          </select>
-          <select class="tb-select" id="paperOrientation" style="width:140px">
-            <option value="portrait">📄 Hochformat</option>
-            <option value="landscape">📰 Querformat</option>
-          </select>
-          <select class="tb-select" id="marginSelector" style="width:150px">
-            <option value="normal">Seitenrand: Normal</option>
-            <option value="narrow">Seitenrand: Schmal</option>
-            <option value="wide">Seitenrand: Breit</option>
-          </select>
-        </div>
-      </div>
-	  <div class="group"><span class="group-label">Hintergrund<span class="arrow">▶</span></span><div class="group-content"><input type="color" class="tb-color" id="pageBgColor" value="#ffffff" title="Hintergrundfarbe des Blattes"></div></div>
-    </div>
-    
-    <div class="toolbar" id="tab-tool">
-      <div class="group">
-        <span class="group-label">Suchen & Ersetzen <span class="arrow">▶</span></span>
-        <div class="group-content">
-          <div class="functions-container" id="container-search">
-            <input type="text" class="tb-input" id="searchBox" placeholder="Suchen…" style="width:100px">
-            <input type="text" class="tb-input" id="replaceBox" placeholder="Ersetzen…" style="width:100px">
-            <button class="tb-btn" id="findBtn">🔍 Suchen</button>
-            <button class="tb-btn" id="replaceBtn">🔄 Ersetzen</button>
-            <button class="tb-btn" id="clearFindBtn">✕</button>
-          </div>
-        </div>
-      </div>
-      <div class="group">
-        <span class="group-label">Smart / Ziele <span class="arrow">▶</span></span>
-        <div class="group-content">
-          <div class="functions-container" id="container-smart">
-            <span class="feature-group-goals">
-              <input type="number" class="tb-input" id="wordGoalInput" placeholder="Ziel (Wörter)..." style="width:120px">
-              <button class="tb-btn" id="setGoalBtn">🎯 Ziel</button>
-              <button class="tb-btn" id="wordCountBtn">📊 Statistik</button>
-            </span>
-            <span class="feature-group-tools">
-              <button class="tb-btn" id="readingModeBtn">🕮 Lesemodus</button>
-              <button class="tb-btn" id="commentBtn" title="Kommentar schreiben">💭 Kommentar</button>
-              <button class="tb-btn" id="dictateBtn">🎤︎ Diktieren</button>
-		      <button class="tb-btn" id="tocBtn" title="Inhaltsverzeichnis erstellen">📑 Inhalt</button>
-            </span>
-          </div>
-        </div>
-      </div>
-    </div>
-<div class="toolbar" id="tab-katalog">
-      <div class="group closed catalog-section">
-        <span class="group-label">📋 Dokumente & Downloads <span class="arrow">▶</span></span>
-        <div class="group-content">
-          <div class="catalog-grid">
-            <a href="handbuch.pdf" target="_blank" download="Benutzerhandbuch.pdf" class="catalog-card">
-              <h4>📥 Benutzerhandbuch</h4>
-              <p>Herunterladungsbutton (.PDF)</p>
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="toolbar" id="tab-export">
-      <div class="group">
-        <span class="group-label">Export</span>
-        <button class="tb-btn" id="saveTXT" title="Als Textdatei exportieren" aria-label="TXT Export"><i data-lucide="file-text" class="EJ"></i> TXT</button>
-        <button class="tb-btn" id="saveHTML" title="Als HTML exportieren" aria-label="HTML Export"><i data-lucide="file-code" class="EJ"></i> HTML</button>
-        <button class="tb-btn" id="saveMD" title="Als Markdown exportieren" aria-label="MD Export"><i data-lucide="file-edit" class="EJ"></i> MD</button>
-		<button class="tb-btn" id="saveDOCX" title="Als MS Word Dokument exportieren" aria-label="Docx Export"><i data-lucide="file-text" class="EJ"></i> DOCX</button>
-		<!--<button class="tb-btn" id="saveNTS" title="Als natives Dateiformat exportieren" aria-label="NTS Export">NTS</button>
-    <input type="file" accept=".nts" id="loadNTS">-->
-      </div>
-	</div>		
-    
-    <div class="toolbar" id="tab-visning">
-      <div class="group">
-        <span class="group-label">Zoom</span>
-        <input type="range" id="zoom" min="40" max="150" value="100" style="width:100px;cursor:pointer;accent-color:var(--accent)">
-        <span id="zoomLabel" style="font-size:12px;font-weight:700;color:var(--accent);min-width:34px">100%</span>
-        <button class="tb-btn" id="zoomReset">1:1</button>
-      </div>
-      <div class="group">
-        <span class="group-label">Design</span>
-        <select class="tb-select" id="themeSelector" style="width:130px">
-          <option value="default">Lumina</option>
-          <option value="theme-moerk">Slate</option>
-          <option value="theme-neon">Cyberpunk</option>
-          <option value="theme-skog">Sylvan</option>
-          <option value="theme-hav">Nordic Ice</option>
-          <option value="theme-pergament">Sepia</option>
-        </select>
-      </div>
-      <div class="group">
-        <span class="group-label">Layout Panels</span>
-        <button class="tb-btn" id="focusModeBtn"><i data-lucide="eye-off" class="EJ"></i> Fokus</button>
-        <button class="tb-btn" id="fullscreenBtn"><i data-lucide="maximize-2" class="EJ"></i> Vollbild</button>
-        <button class="tb-btn" id="toggleComments" title="Kommentare ein-/ausblenden">💬</button>
-      </div>
-    </div>
-  </div>
+            // Toggle dropdown visibility
+            settingsBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                settingsDropdown.classList.toggle('hidden');
+            });
 
-  <div class="workspace" id="workspace">
-    <div class="toc-panel" id="tocPanel" style="display:none">
-      <div class="toc-title">📋 Inhaltsverzeichnis</div>
-      <div class="toc-container" id="tocContainer"></div>
-    </div>
-    
-    <div class="page-stack" id="pageStack">
-    </div>
-    
-    <div class="comments-panel" id="commentsPanel" style="display:none"></div>
-  </div>
+            // Close dropdown when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!settingsDropdown.contains(e.target) && !settingsBtn.contains(e.target)) {
+                    settingsDropdown.classList.add('hidden');
+                }
+            });
 
-  <div class="statusbar">
-    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
-    <div class="statusbar-left">
-      <div class="stat-pill">Wörter: <span id="statWords">0</span></div>
-      <div class="stat-pill" id="goalPill" style="display:none">Ziel: <span id="statGoal">0/0</span> (<span id="goalPercent">0%</span>)</div>
-      <div class="stat-pill">Zeichen: <span id="statChars">0</span></div>
-      <div class="stat-pill">Lesezeit: <span id="statRead">0</span> Min.</div>
-      <div class="stat-pill">Seiten: <span id="statPages">1</span></div>
-    </div>
-    <div class="statusbar-right">
-      <span>V0.9</span>
-      <span>·</span>
-      <span id="statusTheme">Lumina</span>
-    </div>
-  </div>
+            // Theme switcher logic
+            themeButtons.forEach(btn => {
+                const themeName = btn.getAttribute('data-theme');
 
-  <div class="modal-overlay" id="statsModal">
-    <div class="modal-box">
-      <h3>📊 Dokumentenstatistik</h3>
-      <div class="modal-stat-row"><span>Wörter</span><span class="modal-stat-val" id="mWords">0</span></div>
-      <div class="modal-stat-row"><span>Zeichen (mit Leerzeichen)</span><span class="modal-stat-val" id="mChars">0</span></div>
-      <div class="modal-stat-row"><span>Zeichen (ohne Leerzeichen)</span><span class="modal-stat-val" id="mCharsNoSp">0</span></div>
-      <div class="modal-stat-row"><span>Absätze</span><span class="modal-stat-val" id="mParas">0</span></div>
-      <div class="modal-stat-row"><span>Sätze</span><span class="modal-stat-val" id="mSents">0</span></div>
-      <div class="modal-stat-row"><span>Geschätzte Lesezeit</span><span class="modal-stat-val" id="mRead">0 Min.</span></div>
-      <button class="modal-close" id="closeStatsModal">Schließen</button>
-    </div>
-  </div>
+                // Highlight active theme visually in menu
+                if ((savedTheme === null && themeName === "") || savedTheme === themeName) {
+                    btn.classList.add('bg-[var(--accent-soft)]', 'font-bold');
+                }
 
-  <div class="toast-ns" id="toastEl"></div>
+                btn.addEventListener('click', () => {
+                    // Remove all theme classes
+                    document.body.classList.remove('theme-moerk', 'theme-neon', 'theme-skog', 'theme-hav', 'theme-pergament');
 
-<div id="google_translate_element"></div>
-<script type="text/javascript">
-function googleTranslateElementInit() {
-  new google.translate.TranslateElement({
-    pageLanguage: 'de',
-    layout: google.translate.TranslateElement.InlineLayout.SIMPLE 
-  }, 'google_translate_element');
-}
-</script>
-<script type="text/javascript" src="//://google.com"></script>
-<script>
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('sw.js')
-        .then(registration => console.log('SW registriert', registration.scope))
-        .catch(error => console.error('SW fehlgeschlagen:', error));
-    });
-  }
-</script>
-<script src="https://unpkg.com/html-docx-js/dist/html-docx.js"></script>
-<script src="single-editor.js"></script>
-<script src="script.js"></script>
+                    // Add selected theme if not default
+                    if (themeName !== "") {
+                        document.body.classList.add(themeName);
+                    }
+
+                    // Save to localStorage
+                    localStorage.setItem('notater_office_theme', themeName);
+
+                    // Update active styles in menu
+                    themeButtons.forEach(b => b.classList.remove('bg-[var(--accent-soft)]', 'font-bold'));
+                    btn.classList.add('bg-[var(--accent-soft)]', 'font-bold');
+
+                    // Close dropdown
+                    settingsDropdown.classList.add('hidden');
+                });
+            });
+        });
+    </script>
 </body>
+
 </html>
