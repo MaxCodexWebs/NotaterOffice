@@ -12,14 +12,7 @@
       "name": "NTS Dokument",
       "short_name": "NTS",
       "description": "NTS Skriver Dokument öffnen",
-      "url": "./NTS/NTS.html",
-      "icons": [
-        {
-          "src": "./NTS/pictures/Logo_NTS.png", 
-          "sizes": "192x192",
-          "type": "image/png"
-        }
-      ]
+      "url": "./NTS/NTS.html"
     },
     {
       "name": "NTP Programm",
@@ -34,7 +27,7 @@
       "url": "./NotaterBold/NTB.html",
       "icons": [
         {
-          "src": "./NotaterBold/pictures/Logo_NTB.png", 
+          "src": "./NotaterBold/LogoNB.png", 
           "sizes": "192x192",
           "type": "image/png"
         }
