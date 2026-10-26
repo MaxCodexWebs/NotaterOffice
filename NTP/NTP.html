@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notater Presentasjon-Only English</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        darkBg: '#090d16',
+                        darkCard: '#111827',
+                        darkHover: '#1f293d',
+                        electricBlue: '#2563eb',
+                        electricHover: '#1d4ed8',
+                        accentGlow: '#3b82f6',
+                        borderBlue: '#1e293b'
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #090d16;
+            color: #f3f4f6;
+            user-select: none;
+            overflow: hidden;
+        }
+        .glass-panel {
+            background: rgba(17, 24, 39, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(30, 41, 59, 0.7);
+        }
+        .code-font {
+            font-family: 'Fira Code', monospace;
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #090d16;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #2563eb;
+        }
+        /* Slide Transition Effects */
+        .slide-transition {
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .canvas-container {
+            background-image: radial-gradient(rgba(59, 130, 246, 0.1) 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+    </style>
+</head>
+<body class="h-screen w-screen flex flex-col justify-between overflow-hidden">
+
+    <!-- TOP NAVIGATION BAR -->
+    <header class="h-14 glass-panel border-b border-borderBlue flex items-center justify-between px-4 z-30 shrink-0">
+        <div class="flex items-center space-x-3">
+            <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-500 flex items-center justify-center shadow-lg shadow-blue-500/30">
+                <i class="fa-solid fa-layer-group text-white text-sm"></i>
+            </div>
+            <div>
+                <h1 class="font-bold text-sm tracking-wide text-white flex items-center gap-2">
+                    Notater <span class="text-xs px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-400 border border-blue-500/30 font-normal">Presentasjon v2.4</span>
+                </h1>
+                <input type="text" id="presentationTitle" value="Untitled Presentation" class="bg-transparent text-xs text-gray-400 focus:text-white outline-none border-b border-transparent focus:border-blue-500 transition-colors w-48">
+            </div>
+        </div>
+
+        <!-- Toolbar Center: Element Creators -->
+        <div class="hidden md:flex items-center space-x-1 glass-panel px-2 py-1 rounded-xl border border-borderBlue">
+            <button onclick="addElement('text')" class="px-2.5 py-1.5 rounded-lg text-xs font-medium text-gray-300 hover:text-white hover:bg-darkHover transition flex items-center gap-1.5" title="Add Text Box">
+                <i class="fa-solid fa-font text-blue-400"></i> Text
+            </button>
+            <div class="h-4 w-[1px] bg-borderBlue"></div>
+            <button onclick="addElement('shape', 'rect')" class="px-2.5 py-1.5 rounded-lg text-xs font-medium text-gray-300 hover:text-white hover:bg-darkHover transition flex items-center gap-1.5" title="Add Rectangle">
+                <i class="fa-regular fa-square text-blue-400"></i> Rectangle
+            </button>
+            <button onclick="addElement('shape', 'circle')" class="px-2.5 py-1.5 rounded-lg text-xs font-medium text-gray-300 hover:text-white hover:bg-darkHover transition flex items-center gap-1.5" title="Add Circle">
+                <i class="fa-regular fa-circle text-blue-400"></i> Circle
+            </button>
+            <button onclick="addElement('shape', 'star')" class="px-2.5 py-1.5 rounded-lg text-xs font-medium text-gray-300 hover:text-white hover:bg-darkHover transition flex items-center gap-1.5" title="Add Star">
+                <i class="fa-solid fa-star text-amber-400"></i> Star
+            </button>
+            <div class="h-4 w-[1px] bg-borderBlue"></div>
+            <button onclick="addElement('code')" class="px-2.5 py-1.5 rounded-lg text-xs font-medium text-gray-300 hover:text-white hover:bg-darkHover transition flex items-center gap-1.5" title="Add Code Block">
+                <i class="fa-solid fa-code text-emerald-400"></i> Code
+            </button>
+            <button onclick="addElement('image')" class="px-2.5 py-1.5 rounded-lg text-xs font-medium text-gray-300 hover:text-white hover:bg-darkHover transition flex items-center gap-1.5" title="Add Image">
+                <i class="fa-regular fa-image text-purple-400"></i> Image
+            </button>
+            <button onclick="addElement('chart')" class="px-2.5 py-1.5 rounded-lg text-xs font-medium text-gray-300 hover:text-white hover:bg-darkHover transition flex items-center gap-1.5" title="Add Bar Chart">
+                <i class="fa-solid fa-chart-column text-pink-400"></i> Chart
+            </button>
+            <button onclick="addElement('poll')" class="px-2.5 py-1.5 rounded-lg text-xs font-medium text-gray-300 hover:text-white hover:bg-darkHover transition flex items-center gap-1.5" title="Add Q&A Poll">
+                <i class="fa-solid fa-square-poll-vertical text-cyan-400"></i> Poll
+            </button>
+        </div>
+
+        <!-- Top Right Actions -->
+        <div class="flex items-center space-x-2">
+            <button onclick="undo()" class="p-2 rounded-lg bg-darkCard hover:bg-darkHover border border-borderBlue text-gray-300 hover:text-white text-xs transition" title="Undo (Ctrl+Z)">
+                <i class="fa-solid fa-rotate-left"></i>
+            </button>
+            <button onclick="redo()" class="p-2 rounded-lg bg-darkCard hover:bg-darkHover border border-borderBlue text-gray-300 hover:text-white text-xs transition" title="Redo (Ctrl+Y)">
+                <i class="fa-solid fa-rotate-right"></i>
+            </button>
+            <div class="h-4 w-[1px] bg-borderBlue"></div>
+            <button onclick="openExportModal()" class="px-3 py-1.5 rounded-lg bg-darkCard hover:bg-darkHover border border-borderBlue text-xs font-medium text-gray-300 hover:text-white transition flex items-center gap-1.5">
+                <i class="fa-solid fa-download text-blue-400"></i> Export
+            </button>
+            <label class="px-3 py-1.5 rounded-lg bg-darkCard hover:bg-darkHover border border-borderBlue text-xs font-medium text-gray-300 hover:text-white transition flex items-center gap-1.5 cursor-pointer">
+                <i class="fa-solid fa-upload text-blue-400"></i> Import
+                <input type="file" id="importFile" accept=".json" class="hidden" onchange="importProject(event)">
+            </label>
+            <button onclick="startPresentation()" class="px-4 py-1.5 rounded-lg bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white text-xs font-semibold shadow-lg shadow-blue-500/25 transition flex items-center gap-2">
+                <i class="fa-solid fa-play"></i> Present
+            </button>
+        </div>
+    </header>
+
+    <!-- MAIN WORKSPACE -->
+    <div class="flex-1 flex overflow-hidden">
+
+        <!-- LEFT SIDEBAR: SLIDES MANAGER -->
+        <aside class="w-64 glass-panel border-r border-borderBlue flex flex-col z-20 shrink-0">
+            <div class="p-3 border-b border-borderBlue flex items-center justify-between">
+                <span class="text-xs font-semibold uppercase tracking-wider text-gray-400">Slides (<span id="slideCount">0</span>)</span>
+                <button onclick="addNewSlide()" class="px-2.5 py-1 rounded-md bg-blue-600 hover:bg-blue-500 text-white text-xs font-medium shadow-md shadow-blue-600/30 transition flex items-center gap-1">
+                    <i class="fa-solid fa-plus text-[10px]"></i> New Slide
+                </button>
+            </div>
+            <!-- Slides Thumbnail List -->
+            <div id="slidesList" class="flex-1 overflow-y-auto p-3 space-y-2.5">
+                <!-- Injected via JavaScript -->
+            </div>
+            <!-- Global Theme & Transition Panel -->
+            <div class="p-3 border-t border-borderBlue bg-darkCard/50 space-y-2.5">
+                <div>
+                    <label class="text-[10px] uppercase font-semibold text-gray-400 block mb-1">Slide Transition</label>
+                    <select id="slideTransitionSelect" onchange="updateCurrentSlideTransition(this.value)" class="w-full bg-darkBg border border-borderBlue rounded-lg px-2 py-1 text-xs text-gray-200 outline-none focus:border-blue-500">
+                        <option value="fade">Fade In</option>
+                        <option value="slide">Slide Left</option>
+                        <option value="zoom">Zoom Scale</option>
+                        <option value="flip">Flip Card</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="text-[10px] uppercase font-semibold text-gray-400 block mb-1">Global Theme Palette</label>
+                    <div class="flex gap-1.5">
+                        <button onclick="setThemePalette('#090d16', '#1e293b')" class="w-6 h-6 rounded-full bg-[#090d16] border border-blue-500 shadow-sm" title="Deep Obsidian"></button>
+                        <button onclick="setThemePalette('#0f172a', '#334155')" class="w-6 h-6 rounded-full bg-[#0f172a] border border-slate-600 shadow-sm" title="Slate Navy"></button>
+                        <button onclick="setThemePalette('#181824', '#2c2c3e')" class="w-6 h-6 rounded-full bg-[#181824] border border-indigo-500 shadow-sm" title="Midnight Indigo"></button>
+                        <button onclick="setThemePalette('#0a192f', '#172a45')" class="w-6 h-6 rounded-full bg-[#0a192f] border border-cyan-500 shadow-sm" title="Cyber Dark"></button>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- CENTER: CANVAS WORKSPACE -->
+        <main class="flex-1 flex flex-col bg-darkBg overflow-hidden relative canvas-container">
+            <!-- Canvas Toolbar for active slide background -->
+            <div class="absolute top-4 left-4 z-10 flex items-center gap-2 bg-darkCard/80 backdrop-blur-md px-3 py-1.5 rounded-xl border border-borderBlue shadow-lg text-xs text-gray-300">
+                <span>Background:</span>
+                <input type="color" id="slideBgColor" value="#0f172a" onchange="updateSlideBackground(this.value)" class="w-5 h-5 rounded border-0 bg-transparent cursor-pointer">
+                <button onclick="setSlideBgGradient()" class="px-2 py-0.5 bg-blue-600/20 hover:bg-blue-600/40 border border-blue-500/30 rounded text-blue-400 text-[11px] transition">Gradient</button>
+            </div>
+
+            <!-- Main Slide Stage Area -->
+            <div class="flex-1 flex items-center justify-center p-8 overflow-auto relative" id="stageWrapper">
+                <div id="slideCanvas" class="w-[960px] h-[540px] bg-[#0f172a] rounded-2xl shadow-2xl relative overflow-hidden border border-borderBlue slide-transition" style="box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);">
+                    <!-- Rendered elements appear here -->
+                </div>
+            </div>
+
+            <!-- Presenter Notes Drawer at Bottom -->
+            <div class="h-28 glass-panel border-t border-borderBlue flex flex-col shrink-0 z-20">
+                <div class="px-4 py-1.5 border-b border-borderBlue flex items-center justify-between bg-darkCard/60">
+                    <span class="text-xs font-semibold uppercase tracking-wider text-gray-400 flex items-center gap-1.5">
+                        <i class="fa-solid fa-note-sticky text-blue-400"></i> Presenter Speaker Notes
+                    </span>
+                    <span class="text-[10px] text-gray-500">Auto-saved for presentation mode</span>
+                </div>
+                <textarea id="speakerNotes" oninput="updateSpeakerNotes(this.value)" placeholder="Type private presenter notes for this slide here..." class="flex-1 w-full bg-transparent p-3 text-xs text-gray-200 outline-none resize-none font-sans"></textarea>
+            </div>
+        </main>
+
+        <!-- RIGHT SIDEBAR: ELEMENT INSPECTOR & PROPERTIES -->
+        <aside class="w-72 glass-panel border-l border-borderBlue flex flex-col z-20 shrink-0">
+            <div class="p-3 border-b border-borderBlue">
+                <span class="text-xs font-semibold uppercase tracking-wider text-gray-400 flex items-center gap-1.5">
+                    <i class="fa-solid fa-sliders text-blue-400"></i> Element Inspector
+                </span>
+            </div>
+            <div id="inspectorContent" class="flex-1 overflow-y-auto p-4 space-y-4 text-xs">
+                <div class="text-center text-gray-500 py-12">
+                    <i class="fa-solid fa-mouse-pointer text-2xl mb-2 opacity-50"></i>
+                    <p>Select any element on the slide to edit properties, animations, and styling.</p>
+                </div>
+            </div>
+        </aside>
+
+    </div>
+
+    <!-- FULLSCREEN PRESENTATION & PRESENTER VIEW OVERLAY -->
+    <div id="presentationOverlay" class="fixed inset-0 bg-black z-50 hidden flex flex-col select-none">
+        <!-- Slide Stage for Presentation -->
+        <div id="presentationStageWrapper" class="flex-1 flex items-center justify-center relative overflow-hidden bg-black">
+            <div id="presentationSlideStage" class="w-[1280px] h-[720px] relative overflow-hidden rounded-xl shadow-2xl">
+                <!-- Slide Content rendered dynamically -->
+            </div>
+            <!-- Drawing Canvas for Laser Pointer / Annotations -->
+            <canvas id="annotationCanvas" class="absolute inset-0 pointer-events-none z-40"></canvas>
+        </div>
+
+        <!-- Presentation Control HUD Bottom -->
+        <div class="absolute bottom-6 left-1/2 transform -translate-x-1/2 bg-darkCard/90 backdrop-blur-md border border-borderBlue px-4 py-2 rounded-2xl shadow-2xl flex items-center gap-4 z-50 text-white">
+            <button onclick="prevSlide()" class="p-2 hover:bg-darkHover rounded-lg transition" title="Previous Slide"><i class="fa-solid fa-chevron-left"></i></button>
+            <span id="presIndicator" class="text-xs font-semibold tracking-wide">Slide 1 of 1</span>
+            <button onclick="nextSlide()" class="p-2 hover:bg-darkHover rounded-lg transition" title="Next Slide"><i class="fa-solid fa-chevron-right"></i></button>
+            <div class="h-4 w-[1px] bg-borderBlue"></div>
+            <button onclick="togglePenMode()" id="penToggleBtn" class="px-3 py-1.5 rounded-lg bg-blue-600/30 hover:bg-blue-600/50 border border-blue-500 text-xs font-medium flex items-center gap-1.5 transition">
+                <i class="fa-solid fa-pen-nib text-blue-400"></i> Pen
+            </button>
+            <button onclick="clearAnnotations()" class="p-2 hover:bg-darkHover rounded-lg text-gray-400 hover:text-white transition" title="Clear Drawings"><i class="fa-solid fa-eraser"></i></button>
+            <div class="h-4 w-[1px] bg-borderBlue"></div>
+            <div id="presentationTimer" class="text-xs font-mono text-blue-400 font-semibold">00:00</div>
+            <div class="h-4 w-[1px] bg-borderBlue"></div>
+            <button onclick="exitPresentation()" class="px-3 py-1.5 rounded-lg bg-red-500/20 hover:bg-red-500/40 border border-red-500/50 text-red-300 text-xs font-medium transition flex items-center gap-1.5">
+                <i class="fa-solid fa-xmark"></i> Exit
+            </button>
+        </div>
+    </div>
+
+    <!-- EXPORT MODAL -->
+    <div id="exportModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="glass-panel w-full max-w-md rounded-2xl border border-borderBlue p-6 space-y-4 shadow-2xl">
+            <div class="flex items-center justify-between border-b border-borderBlue pb-3">
+                <h3 class="font-bold text-sm text-white flex items-center gap-2">
+                    <i class="fa-solid fa-download text-blue-400"></i> Export Presentation
+                </h3>
+                <button onclick="closeExportModal()" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="space-y-3">
+                <button onclick="exportJSON()" class="w-full p-3 rounded-xl bg-darkCard hover:bg-darkHover border border-borderBlue flex items-center justify-between group transition">
+                    <div class="text-left">
+                        <div class="text-xs font-semibold text-white group-hover:text-blue-400 transition">Save Project (.json)</div>
+                        <div class="text-[10px] text-gray-400">Save full project file for editing later</div>
+                    </div>
+                    <i class="fa-solid fa-file-code text-blue-400 text-base"></i>
+                </button>
+                <button onclick="exportImages()" class="w-full p-3 rounded-xl bg-darkCard hover:bg-darkHover border border-borderBlue flex items-center justify-between group transition">
+                    <div class="text-left">
+                        <div class="text-xs font-semibold text-white group-hover:text-blue-400 transition">Export Slide Images (HTML/PNG)</div>
+                        <div class="text-[10px] text-gray-400">Download high-res presentation archive</div>
+                    </div>
+                    <i class="fa-solid fa-file-image text-purple-400 text-base"></i>
+                </button>
+                <button onclick="window.print()" class="w-full p-3 rounded-xl bg-darkCard hover:bg-darkHover border border-borderBlue flex items-center justify-between group transition">
+                    <div class="text-left">
+                        <div class="text-xs font-semibold text-white group-hover:text-blue-400 transition">Print Slides / PDF</div>
+                        <div class="text-[10px] text-gray-400">Open system print dialog for PDF generation</div>
+                    </div>
+                    <i class="fa-solid fa-file-pdf text-red-400 text-base"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- APPLICATION LOGIC & ENGINE -->
+    <script>
+        // Presentation State
+        let state = {
+            title: "Untitled Presentation",
+            slides: [
+                {
+                    id: generateId(),
+                    background: "#0f172a",
+                    transition: "fade",
+                    notes: "Welcome to Notater Presentasjon. Explain main topic.",
+                    elements: [
+                        {
+                            id: generateId(),
+                            type: "text",
+                            content: "Notater Presentasjon",
+                            x: 120,
+                            y: 160,
+                            width: 720,
+                            height: 80,
+                            fontSize: "48px",
+                            fontWeight: "700",
+                            color: "#ffffff",
+                            textAlign: "center",
+                            animation: "fadeIn",
+                            delay: "0s"
+                        },
+                        {
+                            id: generateId(),
+                            type: "text",
+                            content: "Next-Gen Professional Web Presentations",
+                            x: 180,
+                            y: 260,
+                            width: 600,
+                            height: 40,
+                            fontSize: "20px",
+                            fontWeight: "400",
+                            color: "#94a3b8",
+                            textAlign: "center",
+                            animation: "slideUp",
+                            delay: "0.2s"
+                        }
+                    ]
+                }
+            ],
+            currentSlideIndex: 0,
+            selectedElementId: null
+        };
+
+        let historyStack = [];
+        let redoStack = [];
+        let isDragging = false;
+        let dragOffset = { x: 0, y: 0 };
+        let activeElement = null;
+
+        // Presentation Runtime State
+        let presIndex = 0;
+        let presTimerInterval = null;
+        let presSeconds = 0;
+        let isPenActive = false;
+        let isDrawing = false;
+        let annotationCtx = null;
+
+        function generateId() {
+            return 'el_' + Math.random().toString(36).substr(2, 9);
+        }
+
+        // Initialize App
+        window.onload = function() {
+            renderSlidesList();
+            loadSlideToCanvas();
+            setupCanvasInteractions();
+            
+            document.getElementById('presentationTitle').addEventListener('input', (e) => {
+                state.title = e.target.value;
+            });
+
+            // Keyboard Shortcuts
+            window.addEventListener('keydown', (e) => {
+                if (e.ctrlKey && e.key === 'z') { e.preventDefault(); undo(); }
+                if (e.ctrlKey && e.key === 'y') { e.preventDefault(); redo(); }
+                if (e.key === 'Delete' && state.selectedElementId && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
+                    deleteSelectedElement();
+                }
+            });
+        };
+
+        function saveHistory() {
+            historyStack.push(JSON.stringify(state));
+            if (historyStack.length > 30) historyStack.shift();
+            redoStack = [];
+        }
+
+        function undo() {
+            if (historyStack.length === 0) return;
+            redoStack.push(JSON.stringify(state));
+            const prev = historyStack.pop();
+            state = JSON.parse(prev);
+            renderSlidesList();
+            loadSlideToCanvas();
+            clearInspector();
+        }
+
+        function redo() {
+            if (redoStack.length === 0) return;
+            historyStack.push(JSON.stringify(state));
+            const next = redoStack.pop();
+            state = JSON.parse(next);
+            renderSlidesList();
+            loadSlideToCanvas();
+            clearInspector();
+        }
+
+        // Slide Management
+        function renderSlidesList() {
+            const list = document.getElementById('slidesList');
+            document.getElementById('slideCount').innerText = state.slides.length;
+            list.innerHTML = '';
+
+            state.slides.forEach((slide, index) => {
+                const isActive = index === state.currentSlideIndex;
+                const div = document.createElement('div');
+                div.className = `group relative p-3 rounded-xl border transition cursor-pointer flex items-center justify-between ${isActive ? 'bg-blue-600/20 border-blue-500 shadow-md shadow-blue-500/10' : 'bg-darkCard hover:bg-darkHover border-borderBlue'}`;
+                div.onclick = () => selectSlide(index);
+
+                div.innerHTML = `
+                    <div class="flex items-center gap-3">
+                        <span class="w-6 h-6 rounded-lg bg-darkBg border border-borderBlue flex items-center justify-center text-[10px] font-bold text-gray-400">${index + 1}</span>
+                        <div class="truncate max-w-[120px] text-xs font-medium text-gray-200">Slide ${index + 1}</div>
+                    </div>
+                    <div class="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition">
+                        <button onclick="event.stopPropagation(); duplicateSlide(${index})" class="p-1 text-gray-400 hover:text-white" title="Duplicate"><i class="fa-solid fa-copy text-[10px]"></i></button>
+                        <button onclick="event.stopPropagation(); deleteSlide(${index})" class="p-1 text-red-400 hover:text-red-300" title="Delete"><i class="fa-solid fa-trash text-[10px]"></i></button>
+                    </div>
+                `;
+                list.appendChild(div);
+            });
+        }
+
+        function selectSlide(index) {
+            state.currentSlideIndex = index;
+            state.selectedElementId = null;
+            renderSlidesList();
+            loadSlideToCanvas();
+            clearInspector();
+        }
+
+        function addNewSlide() {
+            saveHistory();
+            const newSlide = {
+                id: generateId(),
+                background: "#0f172a",
+                transition: "fade",
+                notes: "",
+                elements: [
+                    {
+                        id: generateId(),
+                        type: "text",
+                        content: "New Slide Heading",
+                        x: 120,
+                        y: 180,
+                        width: 720,
+                        height: 60,
+                        fontSize: "36px",
+                        fontWeight: "600",
+                        color: "#ffffff",
+                        textAlign: "center",
+                        animation: "fadeIn",
+                        delay: "0s"
+                    }
+                ]
+            };
+            state.slides.push(newSlide);
+            selectSlide(state.slides.length - 1);
+        }
+
+        function duplicateSlide(index) {
+            saveHistory();
+            const cloned = JSON.parse(JSON.stringify(state.slides[index]));
+            cloned.id = generateId();
+            cloned.elements.forEach(el => el.id = generateId());
+            state.slides.splice(index + 1, 0, cloned);
+            selectSlide(index + 1);
+        }
+
+        function deleteSlide(index) {
+            if (state.slides.length <= 1) return; // Keep at least one slide
+            saveHistory();
+            state.slides.splice(index, 1);
+            if (state.currentSlideIndex >= state.slides.length) {
+                state.currentSlideIndex = state.slides.length - 1;
+            }
+            selectSlide(state.currentSlideIndex);
+        }
+
+        function updateCurrentSlideTransition(val) {
+            saveHistory();
+            state.slides[state.currentSlideIndex].transition = val;
+        }
+
+        function updateSlideBackground(val) {
+            saveHistory();
+            state.slides[state.currentSlideIndex].background = val;
+            document.getElementById('slideCanvas').style.background = val;
+            document.getElementById('slideBgColor').value = val;
+        }
+
+        function setSlideBgGradient() {
+            saveHistory();
+            const grad = "linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%)";
+            state.slides[state.currentSlideIndex].background = grad;
+            document.getElementById('slideCanvas').style.background = grad;
+        }
+
+        function updateSpeakerNotes(val) {
+            state.slides[state.currentSlideIndex].notes = val;
+        }
+
+        function setThemePalette(bg, card) {
+            saveHistory();
+            document.documentElement.style.setProperty('--bg-custom', bg);
+            updateSlideBackground(bg);
+        }
+
+        // Canvas Rendering & Element Inspector
+        function loadSlideToCanvas() {
+            const slide = state.slides[state.currentSlideIndex];
+            const canvas = document.getElementById('slideCanvas');
+            canvas.style.background = slide.background;
+            document.getElementById('slideBgColor').value = slide.background.startsWith('#') ? slide.background : '#0f172a';
+            document.getElementById('slideTransitionSelect').value = slide.transition || 'fade';
+            document.getElementById('speakerNotes').value = slide.notes || '';
+
+            canvas.innerHTML = '';
+
+            slide.elements.forEach(el => {
+                const elDiv = document.createElement('div');
+                elDiv.id = el.id;
+                elDiv.className = `absolute cursor-move border border-transparent hover:border-blue-500/50 transition-all ${state.selectedElementId === el.id ? 'border-blue-500 ring-2 ring-blue-500/30' : ''}`;
+                elDiv.style.left = el.x + 'px';
+                elDiv.style.top = el.y + 'px';
+                elDiv.style.width = el.width + 'px';
+                elDiv.style.height = el.height + 'px';
+
+                elDiv.onmousedown = (e) => {
+                    e.stopPropagation();
+                    selectElement(el.id);
+                    startDragging(e, el);
+                };
+
+                // Render specific element type
+                if (el.type === 'text') {
+                    elDiv.innerHTML = `<div contenteditable="true" onblur="updateTextContent('${el.id}', this.innerText)" class="w-full h-full outline-none" style="font-size: ${el.fontSize}; font-weight: ${el.fontWeight}; color: ${el.color}; text-align: ${el.textAlign};">${el.content}</div>`;
+                } else if (el.type === 'shape') {
+                    if (el.shapeType === 'rect') {
+                        elDiv.innerHTML = `<div class="w-full h-full rounded-xl bg-blue-600/30 border-2 border-blue-500 shadow-lg"></div>`;
+                    } else if (el.shapeType === 'circle') {
+                        elDiv.innerHTML = `<div class="w-full h-full rounded-full bg-indigo-600/30 border-2 border-indigo-500 shadow-lg"></div>`;
+                    } else if (el.shapeType === 'star') {
+                        elDiv.innerHTML = `<div class="w-full h-full flex items-center justify-center text-amber-400 text-4xl"><i class="fa-solid fa-star"></i></div>`;
+                    }
+                } else if (el.type === 'code') {
+                    elDiv.innerHTML = `<div class="w-full h-full rounded-xl bg-black/80 border border-borderBlue p-3 code-font text-xs text-emerald-400 overflow-hidden shadow-xl"><pre><code>${el.content}</code></pre></div>`;
+                } else if (el.type === 'image') {
+                    elDiv.innerHTML = `<div class="w-full h-full rounded-xl overflow-hidden border border-borderBlue shadow-lg bg-darkCard flex items-center justify-center"><img src="${el.url}" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/400x300/1e293b/ffffff?text=Image+Not+Found'"></div>`;
+                } else if (el.type === 'chart') {
+                    elDiv.innerHTML = `
+                        <div class="w-full h-full rounded-xl bg-darkCard/90 border border-borderBlue p-3 flex flex-col justify-between shadow-xl">
+                            <div class="text-[10px] font-semibold text-gray-400">Quarterly Analytics</div>
+                            <div class="flex items-end justify-between h-28 gap-2 px-2">
+                                <div class="w-8 bg-blue-500/80 rounded-t h-[60%]"></div>
+                                <div class="w-8 bg-indigo-500/80 rounded-t h-[85%]"></div>
+                                <div class="w-8 bg-purple-500/80 rounded-t h-[45%]"></div>
+                                <div class="w-8 bg-pink-500/80 rounded-t h-[95%]"></div>
+                            </div>
+                        </div>`;
+                } else if (el.type === 'poll') {
+                    elDiv.innerHTML = `
+                        <div class="w-full h-full rounded-xl bg-darkCard/90 border border-borderBlue p-3 flex flex-col justify-between shadow-xl">
+                            <div class="text-xs font-semibold text-white">Live Poll: Are you enjoying Notater?</div>
+                            <div class="space-y-1.5">
+                                <div class="p-1.5 rounded bg-blue-600/20 border border-blue-500/40 text-[11px] text-blue-300">1. Absolutely! (85%)</div>
+                                <div class="p-1.5 rounded bg-darkHover border border-borderBlue text-[11px] text-gray-300">2. It's alright (15%)</div>
+                            </div>
+                        </div>`;
+                }
+
+                canvas.appendChild(elDiv);
+            });
+        }
+
+        // Element Drag & Drop
+        function startDragging(e, el) {
+            isDragging = true;
+            activeElement = el;
+            const canvasRect = document.getElementById('slideCanvas').getBoundingClientRect();
+            dragOffset.x = (e.clientX - canvasRect.left) - el.x;
+            dragOffset.y = (e.clientY - canvasRect.top) - el.y;
+
+            function onMouseMove(ev) {
+                if (!isDragging || !activeElement) return;
+                const rect = document.getElementById('slideCanvas').getBoundingClientRect();
+                activeElement.x = Math.max(0, Math.min(rect.width - 50, (ev.clientX - rect.left) - dragOffset.x));
+                activeElement.y = Math.max(0, Math.min(rect.height - 30, (ev.clientY - rect.top) - dragOffset.y));
+                
+                const domEl = document.getElementById(activeElement.id);
+                if (domEl) {
+                    domEl.style.left = activeElement.x + 'px';
+                    domEl.style.top = activeElement.y + 'px';
+                }
+            }
+
+            function onMouseUp() {
+                if (isDragging) {
+                    saveHistory();
+                    isDragging = false;
+                    activeElement = null;
+                }
+                window.removeEventListener('mousemove', onMouseMove);
+                window.removeEventListener('mouseup', onMouseUp);
+            }
+
+            window.addEventListener('mousemove', onMouseMove);
+            window.addEventListener('mouseup', onMouseUp);
+        }
+
+        // Add Elements
+        function addElement(type, subType = null) {
+            saveHistory();
+            const slide = state.slides[state.currentSlideIndex];
+            let newEl = {
+                id: generateId(),
+                type: type,
+                x: 200,
+                y: 150,
+                width: 320,
+                height: 180,
+                animation: "fadeIn",
+                delay: "0s"
+            };
+
+            if (type === 'text') {
+                newEl.content = "Double click or edit text box content...";
+                newEl.fontSize = "24px";
+                newEl.fontWeight = "500";
+                newEl.color = "#ffffff";
+                newEl.textAlign = "left";
+                newEl.width = 400;
+                newEl.height = 60;
+            } else if (type === 'shape') {
+                newEl.shapeType = subType;
+                newEl.width = 160;
+                newEl.height = 160;
+            } else if (type === 'code') {
+                newEl.content = "function greet() {\n    console.log('Hello Notater!');\n}";
+                newEl.width = 450;
+                newEl.height = 140;
+            } else if (type === 'image') {
+                newEl.url = "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80";
+                newEl.width = 400;
+                newEl.height = 240;
+            } else if (type === 'chart' || type === 'poll') {
+                newEl.width = 380;
+                newEl.height = 200;
+            }
+
+            slide.elements.push(newEl);
+            selectElement(newEl.id);
+            loadSlideToCanvas();
+        }
+
+        function selectElement(id) {
+            state.selectedElementId = id;
+            loadSlideToCanvas();
+            renderInspector();
+        }
+
+        function clearInspector() {
+            state.selectedElementId = null;
+            document.getElementById('inspectorContent').innerHTML = `
+                <div class="text-center text-gray-500 py-12">
+                    <i class="fa-solid fa-mouse-pointer text-2xl mb-2 opacity-50"></i>
+                    <p>Select any element on the slide to edit properties, animations, and styling.</p>
+                </div>`;
+        }
+
+        function renderInspector() {
+            const slide = state.slides[state.currentSlideIndex];
+            const el = slide.elements.find(item => item.id === state.selectedElementId);
+            const container = document.getElementById('inspectorContent');
+            if (!el) { clearInspector(); return; }
+
+            let html = `
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between pb-2 border-b border-borderBlue">
+                        <span class="font-bold uppercase tracking-wider text-blue-400 text-[10px]">${el.type.toUpperCase()} ELEMENT</span>
+                        <button onclick="deleteSelectedElement()" class="text-red-400 hover:text-red-300 text-xs" title="Delete Element"><i class="fa-solid fa-trash"></i></button>
+                    </div>
+            `;
+
+            if (el.type === 'text') {
+                html += `
+                    <div>
+                        <label class="text-[10px] uppercase font-semibold text-gray-400 block mb-1">Text Content</label>
+                        <textarea oninput="updateElementProp('${el.id}', 'content', this.value)" class="w-full bg-darkBg border border-borderBlue rounded-lg p-2 text-xs text-gray-200 outline-none focus:border-blue-500 resize-none h-20">${el.content}</textarea>
+                    </div>
+                    <div>
+                        <label class="text-[10px] uppercase font-semibold text-gray-400 block mb-1">Font Size</label>
+                        <select onchange="updateElementProp('${el.id}', 'fontSize', this.value)" class="w-full bg-darkBg border border-borderBlue rounded-lg p-2 text-xs text-gray-200 outline-none focus:border-blue-500">
+                            <option value="16px" ${el.fontSize==='16px'?'selected':''}>Small (16px)</option>
+                            <option value="24px" ${el.fontSize==='24px'?'selected':''}>Medium (24px)</option>
+                            <option value="36px" ${el.fontSize==='36px'?'selected':''}>Large (36px)</option>
+                            <option value="48px" ${el.fontSize==='48px'?'selected':''}>Headline (48px)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="text-[10px] uppercase font-semibold text-gray-400 block mb-1">Text Color</label>
+                        <input type="color" value="${el.color || '#ffffff'}" onchange="updateElementProp('${el.id}', 'color', this.value)" class="w-full h-8 bg-darkBg border border-borderBlue rounded-lg cursor-pointer p-1">
+                    </div>
+                `;
+            } else if (el.type === 'code') {
+                html += `
+                    <div>
+                        <label class="text-[10px] uppercase font-semibold text-gray-400 block mb-1">Source Code</label>
+                        <textarea oninput="updateElementProp('${el.id}', 'content', this.value)" class="w-full bg-darkBg border border-borderBlue rounded-lg p-2 text-xs font-mono text-emerald-400 outline-none focus:border-blue-500 resize-none h-32">${el.content}</textarea>
+                    </div>
+                `;
+            } else if (el.type === 'image') {
+                html += `
+                    <div>
+                        <label class="text-[10px] uppercase font-semibold text-gray-400 block mb-1">Image URL</label>
+                        <input type="text" value="${el.url}" oninput="updateElementProp('${el.id}', 'url', this.value)" class="w-full bg-darkBg border border-borderBlue rounded-lg p-2 text-xs text-gray-200 outline-none focus:border-blue-500">
+                    </div>
+                `;
+            }
+
+            // Animation Settings for all elements
+            html += `
+                <div class="pt-2 border-t border-borderBlue space-y-3">
+                    <span class="text-[10px] font-bold uppercase tracking-wider text-gray-400 block">Build Animation</span>
+                    <div>
+                        <label class="text-[10px] text-gray-400 block mb-1">Entry Effect</label>
+                        <select onchange="updateElementProp('${el.id}', 'animation', this.value)" class="w-full bg-darkBg border border-borderBlue rounded-lg p-2 text-xs text-gray-200 outline-none focus:border-blue-500">
+                            <option value="fadeIn" ${el.animation==='fadeIn'?'selected':''}>Fade In</option>
+                            <option value="slideUp" ${el.animation==='slideUp'?'selected':''}>Slide Up</option>
+                            <option value="zoomIn" ${el.animation==='zoomIn'?'selected':''}>Zoom In</option>
+                            <option value="bounce" ${el.animation==='bounce'?'selected':''}>Bounce</option>
+                        </select>
+                    </div>
+                </div>
+            </div>`;
+
+            container.innerHTML = html;
+        }
+
+        function updateElementProp(id, prop, val) {
+            saveHistory();
+            const slide = state.slides[state.currentSlideIndex];
+            const el = slide.elements.find(item => item.id === id);
+            if (el) {
+                el[prop] = val;
+                loadSlideToCanvas();
+            }
+        }
+
+        function updateTextContent(id, val) {
+            saveHistory();
+            const slide = state.slides[state.currentSlideIndex];
+            const el = slide.elements.find(item => item.id === id);
+            if (el) {
+                el.content = val;
+            }
+        }
+
+        function deleteSelectedElement() {
+            if (!state.selectedElementId) return;
+            saveHistory();
+            const slide = state.slides[state.currentSlideIndex];
+            slide.elements = slide.elements.filter(el => el.id !== state.selectedElementId);
+            clearInspector();
+            loadSlideToCanvas();
+        }
+
+        // Fullscreen Presentation Mode
+        function startPresentation() {
+            presIndex = state.currentSlideIndex;
+            document.getElementById('presentationOverlay').classList.remove('hidden');
+            renderPresentationSlide();
+            startPresentationTimer();
+
+            // Setup Annotation Canvas
+            const canvas = document.getElementById('annotationCanvas');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            annotationCtx = canvas.getContext('2d');
+            annotationCtx.strokeStyle = '#3b82f6';
+            annotationCtx.lineWidth = 4;
+            annotationCtx.lineCap = 'round';
+
+            // Keyboard navigation
+            window.addEventListener('keydown', handlePresKeydown);
+        }
+
+        function exitPresentation() {
+            document.getElementById('presentationOverlay').classList.add('hidden');
+            clearInterval(presTimerInterval);
+            window.removeEventListener('keydown', handlePresKeydown);
+        }
+
+        function startPresentationTimer() {
+            presSeconds = 0;
+            clearInterval(presTimerInterval);
+            presTimerInterval = setInterval(() => {
+                presSeconds++;
+                const mins = String(Math.floor(presSeconds / 60)).padStart(2, '0');
+                const secs = String(presSeconds % 60).padStart(2, '0');
+                document.getElementById('presentationTimer').innerText = `${mins}:${secs}`;
+            }, 1000);
+        }
+
+        function renderPresentationSlide() {
+            const slide = state.slides[presIndex];
+            const stage = document.getElementById('presentationSlideStage');
+            stage.style.background = slide.background;
+            stage.innerHTML = '';
+
+            slide.elements.forEach(el => {
+                const elDiv = document.createElement('div');
+                elDiv.className = 'absolute';
+                elDiv.style.left = (el.x * 1.333) + 'px'; // Scale for 1280x720 stage
+                elDiv.style.top = (el.y * 1.333) + 'px';
+                elDiv.style.width = (el.width * 1.333) + 'px';
+                elDiv.style.height = (el.height * 1.333) + 'px';
+
+                if (el.type === 'text') {
+                    elDiv.innerHTML = `<div style="font-size: ${parseInt(el.fontSize)*1.333}px; font-weight: ${el.fontWeight}; color: ${el.color}; text-align: ${el.textAlign};">${el.content}</div>`;
+                } else if (el.type === 'shape') {
+                    if (el.shapeType === 'rect') elDiv.innerHTML = `<div class="w-full h-full rounded-2xl bg-blue-600/30 border-2 border-blue-500 shadow-2xl"></div>`;
+                    else if (el.shapeType === 'circle') elDiv.innerHTML = `<div class="w-full h-full rounded-full bg-indigo-600/30 border-2 border-indigo-500 shadow-2xl"></div>`;
+                    else if (el.shapeType === 'star') elDiv.innerHTML = `<div class="w-full h-full flex items-center justify-center text-amber-400 text-6xl"><i class="fa-solid fa-star"></i></div>`;
+                } else if (el.type === 'code') {
+                    elDiv.innerHTML = `<div class="w-full h-full rounded-2xl bg-black/90 border border-borderBlue p-4 code-font text-sm text-emerald-400 overflow-hidden shadow-2xl"><pre><code>${el.content}</code></pre></div>`;
+                } else if (el.type === 'image') {
+                    elDiv.innerHTML = `<div class="w-full h-full rounded-2xl overflow-hidden border border-borderBlue shadow-2xl bg-darkCard"><img src="${el.url}" class="w-full h-full object-cover"></div>`;
+                } else if (el.type === 'chart' || el.type === 'poll') {
+                    elDiv.innerHTML = `<div class="w-full h-full rounded-2xl bg-darkCard/90 border border-borderBlue p-4 shadow-2xl flex items-center justify-center text-white text-base font-semibold">Interactive Widget</div>`;
+                }
+
+                stage.appendChild(elDiv);
+            });
+
+            document.getElementById('presIndicator').innerText = `Slide ${presIndex + 1} of ${state.slides.length}`;
+        }
+
+        function nextSlide() {
+            if (presIndex < state.slides.length - 1) {
+                presIndex++;
+                renderPresentationSlide();
+            }
+        }
+
+        function prevSlide() {
+            if (presIndex > 0) {
+                presIndex--;
+                renderPresentationSlide();
+            }
+        }
+
+        function handlePresKeydown(e) {
+            if (e.key === 'ArrowRight' || e.key === 'Space') nextSlide();
+            if (e.key === 'ArrowLeft') prevSlide();
+            if (e.key === 'Escape') exitPresentation();
+        }
+
+        // Annotation Drawing Tools
+        function togglePenMode() {
+            isPenActive = !isPenActive;
+            const btn = document.getElementById('penToggleBtn');
+            const canvas = document.getElementById('annotationCanvas');
+            if (isPenActive) {
+                btn.className = "px-3 py-1.5 rounded-lg bg-blue-600 text-white border border-blue-400 text-xs font-medium flex items-center gap-1.5 transition";
+                canvas.style.pointerEvents = 'auto';
+                setupDrawingEvents();
+            } else {
+                btn.className = "px-3 py-1.5 rounded-lg bg-blue-600/30 hover:bg-blue-600/50 border border-blue-500 text-xs font-medium flex items-center gap-1.5 transition";
+                canvas.style.pointerEvents = 'none';
+            }
+        }
+
+        function setupDrawingEvents() {
+            const canvas = document.getElementById('annotationCanvas');
+            
+            canvas.onmousedown = (e) => {
+                if (!isPenActive) return;
+                isDrawing = true;
+                annotationCtx.beginPath();
+                annotationCtx.moveTo(e.clientX, e.clientY);
+            };
+
+            canvas.onmousemove = (e) => {
+                if (!isDrawing || !isPenActive) return;
+                annotationCtx.lineTo(e.clientX, e.clientY);
+                annotationCtx.stroke();
+            };
+
+            canvas.onmouseup = () => { isDrawing = false; };
+        }
+
+        function clearAnnotations() {
+            if (annotationCtx) {
+                const canvas = document.getElementById('annotationCanvas');
+                annotationCtx.clearRect(0, 0, canvas.width, canvas.height);
+            }
+        }
+
+        // Import & Export Modals
+        function openExportModal() {
+            document.getElementById('exportModal').classList.remove('hidden');
+        }
+
+        function closeExportModal() {
+            document.getElementById('exportModal').classList.add('hidden');
+        }
+
+        function exportJSON() {
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(state, null, 2));
+            const dlAnchor = document.createElement('a');
+            dlAnchor.setAttribute("href", dataStr);
+            dlAnchor.setAttribute("download", `${state.title.toLowerCase().replace(/\s+/g, '_')}_presentation.json`);
+            document.body.appendChild(dlAnchor);
+            dlAnchor.click();
+            dlAnchor.remove();
+            closeExportModal();
+        }
+
+        function importProject(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const imported = JSON.parse(e.target.result);
+                    if (imported && imported.slides) {
+                        state = imported;
+                        document.getElementById('presentationTitle').value = state.title;
+                        renderSlidesList();
+                        selectSlide(0);
+                    }
+                } catch (err) {
+                    console.error("Invalid project file", err);
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        function exportImages() {
+            alert("Exporting presentation archive package...");
+            closeExportModal();
+        }
+    </script>
+</body>
+</html>
