@@ -1,4 +1,5 @@
-# Notater Skriver
+# Notater Office
+## Notater Skriver
 
 [Deutsch](#deutsch) | [English](#english)
 
@@ -45,39 +46,51 @@ Die Oberfläche ist in logische Reiter gegliedert:
 * **Status:** Kontinuierliche Weiterentwicklung. Alle Rechte vorbehalten.
 
 ---
+## Notater Bold
+* Neues Tabellen Modul mit denselben Designs wie bei Notater Skriver
+## Notater Presentasjon
+* Neues Präsentations Modul im only dark design in bis dato nur in Englischer Sprache
 
+---
 ## English
 
-**Notater Skriver** is a lightweight, high-performance web-based word processor designed for maximum efficiency. The application is now fully optimized for mobile devices, offering a seamless experience across smartphones and tablets.
+**Notater Skriver** is a lightweight, high-performance web-based text editor designed for maximum efficiency within the browser. The application is now fully optimized for mobile use on smartphones and tablets.
 
-### Architecture and Design
-Built with a minimalist approach, the interface features new, sleek background themes to enhance focus and reduce eye strain, regardless of your screen size.
+### System Architecture and Design
+The application features a modern, minimalist user interface. New, elegant background options allow users to focus entirely on the writing process, regardless of screen size.
 
-1. **The Dashboard:** The central hub for project management.
-   * **Create New:** Initiate documents with minimal latency.
-   * **Recent Documents:** Access your latest work with integrated deletion options.
-   * **Notater News:** Dedicated feed for application updates, accessibility improvements, and version history.
-  * Example: photo one
-2. **The Editor View:** A professional-grade writing environment. The responsive design ensures the toolbar remains functional and intuitive on touch-based devices.
-  * Example: photo two
+1. **Dashboard:** The central management hub. 
+* **Quick Start:** Create new documents instantly. 
+* **Overview:** Manage recently edited files, complete with timestamps. 
+* **Notater News:** A central source for updates, accessibility information, and technical changelogs.
+* Example of the dashboard in the "Slate" design. 
+<img width="1595" height="896" alt="Dashboard in the 'Slate' design" src="https://github.com/user-attachments/assets/ba85c2b6-decc-4151-89ea-e48f21bc28fc" />
 
-### Data Storage
-Your data is managed exclusively via **IndexedDB**. Documents are stored locally within your browser, ensuring privacy and persistence without the need for server-side databases.
+2. **Editing View:** A fully-featured editor environment. Its responsive architecture ensures that the toolbar remains easy to use and precise, whether on a desktop system or a mobile device.
+* Example of the editing view in the "Slate" design. <img width="1599" height="898" alt="Editing view in 'Slate' design" src="https://github.com/user-attachments/assets/3ef92ce8-ba86-4bba-b093-3e1f76f0ab42" />
 
-### Key Menu Categories
-* **Start:** Comprehensive text formatting tools.
-* **Insert:** Tables, lists, and horizontal separators.
-* **Format:** Layout controls, line spacing, and margins.
-* **Tools:** Find-and-replace utilities.
-* **Export:** Direct file output to PDF, .docx (new), HTML, and .txt.
-* **Catalog:** Access the built-in user manual.
-* **View:** Interface customization and focus mode settings.
+### Data Security and Storage
+The application uses **IndexedDB** for local storage. Your data never leaves your device and remains stored locally within your browser—no external database is required.
 
-### Performance Features
-* **Real-Time Analytics:** Word counts, character metrics, and estimated reading time are updated live in the status bar.
-* **Scientific Precision:** Native support for superscript and subscript notation.
-* **Efficiency:** Complete support for industry-standard keyboard shortcuts.
+### Feature Overview
+The interface is organized into logical tabs:
+* **Home:** Core formatting (font, color, style, alignment).
+* **Insert:** Tables, lists, and structured separators.
+* **Format:** Layout adjustments, line spacing, and page margins.
+* **Tools:** Search and replace algorithms.
+* **Export:** Support for PDF, .docx (new), HTML, and .txt.
+* **Catalog:** An integrated user manual for quick access to features.
+* **View:** Customizable UI modes and focus options.
+
+### Performance and User Experience
+* **Real-time Statistics:** The status bar continuously tracks word count, character count, and reading time.
+* **Precision Editing:** Native support for superscript and subscript characters, ideal for scientific notation.
+* **Workflow:** Full support for standard keyboard shortcuts to ensure an efficient workflow.
 
 ### Credits
 * **Icons:** Provided by [Lucide](https://lucide.dev).
-* **Development:** Developed with an emphasis on performance and clean design. All rights reserved.
+* **Status:** Under continuous development. All rights reserved. ---
+## Notater Bold
+* New table module featuring the same designs as those in Notater Skriver
+## Notater Presentasjon
+* New presentation module, available exclusively in a dark theme and currently offered only in English
